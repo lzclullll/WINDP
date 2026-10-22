@@ -1,0 +1,1 @@
+<template><el-card><template #header>告警规则管理</template><el-table :data="rules"><el-table-column prop="name" label="规则"/><el-table-column prop="desc" label="说明"/></el-table></el-card></template><script setup lang="ts">const rules=[{name:'功率连续低值',desc:'连续 5 分钟接近 0'},{name:'风速过高',desc:'超过阈值触发告警'},{name:'预测偏差过大',desc:'MAPE 超过配置阈值'}]</script>

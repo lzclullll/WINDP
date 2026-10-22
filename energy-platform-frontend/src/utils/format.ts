@@ -1,0 +1,1 @@
+export const n = (v: number | string | undefined) => Number(v || 0).toLocaleString('zh-CN')
