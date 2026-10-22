@@ -2,6 +2,8 @@
 
 这是一个面向个人项目实训的前后端分离 Web 应用。正式用户界面位于 `energy-platform-frontend`，后端位于 `energy-platform-backend`。后端目录中的 `resources/static` 仅保留为早期原型参考，不作为当前交付界面。
 
+项目仓库：[https://github.com/lzclullll/WINDP](https://github.com/lzclullll/WINDP)
+
 ## 功能
 
 - 场站、设备、用户、角色和权限管理
@@ -59,13 +61,44 @@ npm run build:backend
 | `LLM_MODEL` | 后端使用的模型，通常无需修改 | 否 |
 | `DB_URL`、`DB_USERNAME`、`DB_PASSWORD` | MySQL 连接信息 | 生产必填 |
 
-在 PyCharm 的后端运行配置中增加环境变量：
+在 IntelliJ IDEA 中打开 `运行/调试配置`，选择 `PlatformApplication`，在“环境变量”中增加：
 
 ```text
 LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4;LLM_API_KEY=你的智谱APIKey
 ```
 
 重新启动后端即可启用在线回答。启用后，当前问题和检索到的运维资料片段会发送给所配置的模型服务；API Key 不要写进代码或提交到仓库。
+
+## 数据库配置
+
+课堂演示默认使用 H2 文件数据库，不需要安装 MySQL。数据库文件生成在项目根目录的 `data` 目录中，开发配置会自动执行：
+
+- `energy-platform-backend/src/main/resources/db/schema.sql`：创建表结构；
+- `energy-platform-backend/src/main/resources/db/data.sql`：写入演示数据。
+
+后端启动后可访问 `http://localhost:8080/h2-console`，连接信息如下：
+
+```text
+JDBC URL: jdbc:h2:file:./data/energy_db;MODE=MySQL;DATABASE_TO_UPPER=false;AUTO_SERVER=TRUE
+User Name: sa
+Password: 留空
+```
+
+如需改用 MySQL 8，先创建数据库：
+
+```sql
+CREATE DATABASE energy_platform
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+```
+
+然后手动执行 `schema.sql`，按需执行 `data.sql`，并在 IDEA 的运行配置中设置以下环境变量：
+
+```text
+SPRING_PROFILES_ACTIVE=prod;DB_URL=jdbc:mysql://localhost:3306/energy_platform?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai;DB_USERNAME=你的数据库用户名;DB_PASSWORD=你的数据库密码;JWT_SECRET=至少32字节的随机字符串;COOKIE_SECURE=false;CORS_ALLOWED_ORIGINS=http://localhost:8080
+```
+
+生产配置不会自动建表或导入演示数据。若通过 HTTPS 部署，应将 `COOKIE_SECURE` 改为 `true`。
 
 ## 构建与测试
 
