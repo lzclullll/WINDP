@@ -1,0 +1,35 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: energy-platform
+  profiles:
+    default: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+jwt:
+  secret: ${JWT_SECRET:energy-platform-local-development-secret-change-before-deploy}
+  access-expiration: ${JWT_ACCESS_EXPIRATION:900000}
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+app:
+  cookie:
+    secure: ${COOKIE_SECURE:false}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+assistant:
+  base-url: ${LLM_BASE_URL:}
+  api-key: ${LLM_API_KEY:}
+  model: ${LLM_MODEL:glm-4.7-flash}

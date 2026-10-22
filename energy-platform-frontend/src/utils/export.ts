@@ -1,0 +1,1 @@
+export const downloadText = (name: string, text: string) => { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text])); a.download=name; a.click() }

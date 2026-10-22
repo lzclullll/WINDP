@@ -1,0 +1,10 @@
+import request from '@/utils/request'
+export const listWorkOrders=(p:any)=>request.get('/work-orders',{params:p})
+export const workOrderStats=()=>request.get('/work-orders/statistics')
+export const getWorkOrder=(id:number)=>request.get('/work-orders/'+id)
+export const saveWorkOrder=(d:any)=>request.post('/work-orders',d)
+export const updateWorkOrder=(id:number,d:any)=>request.put('/work-orders/'+id,d)
+export const deleteWorkOrder=(id:number)=>request.delete('/work-orders/'+id)
+export const assignWorkOrder=(id:number,assigneeId:number)=>request.post(`/work-orders/${id}/assign`,{assigneeId})
+export const completeWorkOrder=(id:number)=>request.post(`/work-orders/${id}/complete`)
+export const closeWorkOrder=(id:number)=>request.post(`/work-orders/${id}/close`)
